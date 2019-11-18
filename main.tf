@@ -48,10 +48,12 @@ resource "aws_transfer_user" "main" {
   role           = aws_iam_role.main.arn
   home_directory = format("/%s/", var.home_directory_bucket_id)
 
-  tags = {
-    Name       = var.user_name
-    Automation = "Terraform"
-  }
+  tags = merge(
+    var.tags,
+    {
+      "Automation" = "Terraform"
+    },
+  )
 }
 
 resource "aws_transfer_ssh_key" "main" {
