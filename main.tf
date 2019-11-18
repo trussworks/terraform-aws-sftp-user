@@ -21,8 +21,11 @@ resource "aws_iam_role" "main" {
 data "aws_iam_policy_document" "role_policy_doc" {
   # Allow access to list the alb log bucket
   statement {
-    effect    = "Allow"
-    actions   = ["s3:ListBucket"]
+    effect = "Allow"
+    actions = [
+      "s3:GetBucketAcl",
+      "s3:ListBucket",
+    ]
     resources = [var.home_directory_bucket_arn]
   }
   statement {
