@@ -19,7 +19,6 @@ resource "aws_iam_role" "main" {
 }
 
 data "aws_iam_policy_document" "role_policy_doc" {
-  # Allow access to list the alb log bucket
   statement {
     effect = "Allow"
     actions = [
