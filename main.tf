@@ -22,8 +22,8 @@ data "aws_iam_policy_document" "role_policy_doc" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:GetBucketAcl",
       "s3:ListBucket",
+      "s3:GetBucketLocation"
     ]
     resources = [var.home_directory_bucket_arn]
   }
@@ -31,8 +31,12 @@ data "aws_iam_policy_document" "role_policy_doc" {
     effect = "Allow"
     actions = [
       "s3:GetObject",
+      "s3:GetObjectACL",
+      "s3:GetObjectVersion",
       "s3:PutObject",
+      "s3:PutObjectACL",
       "s3:DeleteObject",
+      "s3:DeleteObjectVersion"
     ]
     resources = [format("%s/*", var.home_directory_bucket_arn)]
   }
