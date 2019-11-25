@@ -8,14 +8,18 @@ variable "role_name" {
   type        = string
 }
 
-variable "home_directory_bucket_arn" {
-  description = "The ARN of the S3 Bucket to use as the home directory"
-  type        = string
+variable "home_directory_bucket" {
+  description = "The S3 Bucket to use as the home directory"
+  type = object({
+    arn = string
+    id  = string
+  })
 }
 
-variable "home_directory_bucket_id" {
-  description = "The ID of the S3 Bucket to use as the home directory"
+variable "home_directory_key_prefix" {
+  description = "The home directory key prefix"
   type        = string
+  default     = ""
 }
 
 variable "sftp_server_id" {
@@ -33,4 +37,18 @@ variable "tags" {
   description = "A mapping of tags to assign to all resources"
   type        = map(string)
   default     = {}
+}
+
+variable "allowed_actions" {
+  description = "A list of allowed actions for objects in the backend bucket."
+  type        = list(string)
+  default = [
+    "s3:GetObject",
+    "s3:GetObjectACL",
+    "s3:GetObjectVersion",
+    "s3:PutObject",
+    "s3:PutObjectACL",
+    "s3:DeleteObject",
+    "s3:DeleteObjectVersion"
+  ]
 }

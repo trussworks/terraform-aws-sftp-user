@@ -25,20 +25,16 @@ data "aws_iam_policy_document" "role_policy_doc" {
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
-    resources = [var.home_directory_bucket_arn]
+    resources = [
+      var.home_directory_bucket.arn
+    ]
   }
   statement {
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:GetObjectACL",
-      "s3:GetObjectVersion",
-      "s3:PutObject",
-      "s3:PutObjectACL",
-      "s3:DeleteObject",
-      "s3:DeleteObjectVersion"
+    effect  = "Allow"
+    actions = var.allowed_actions
+    resources = [
+      format("%s/%s*", var.home_directory_bucket.arn, var.home_directory_key_prefix)
     ]
-    resources = [format("%s/*", var.home_directory_bucket_arn)]
   }
 }
 
@@ -52,7 +48,7 @@ resource "aws_transfer_user" "main" {
   server_id      = var.sftp_server_id
   user_name      = var.user_name
   role           = aws_iam_role.main.arn
-  home_directory = format("/%s/", var.home_directory_bucket_id)
+  home_directory = format("/%s/%s", var.home_directory_bucket.id, var.home_directory_key_prefix)
 
   tags = merge(
     var.tags,
