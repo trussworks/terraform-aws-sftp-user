@@ -28,7 +28,7 @@ variable "sftp_server_id" {
 }
 
 variable "ssh_public_keys" {
-  description = "Public SSH key for the user.  If none specified, then"
+  description = "Public SSH key for the user.  If list is empty, then no SSH Keys are setup to authenticate as the user."
   type        = list(string)
   default     = []
 }
