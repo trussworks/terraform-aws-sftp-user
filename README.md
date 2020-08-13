@@ -7,6 +7,7 @@ Creates the following resources:
 * SSH Keys attached to the Transfer user.
 
 ## Usage
+
 ```hcl
 module "sftp_user_alice" {
   source                = "trussworks/sftp-user/aws"
