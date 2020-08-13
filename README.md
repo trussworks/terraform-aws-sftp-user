@@ -1,4 +1,3 @@
-
 Creates a user for an AWS Transfer for SFTP endpoint.
 
 Creates the following resources:
@@ -25,27 +24,43 @@ module "sftp_user_alice" {
     "s3:GetObjectACL",
     "s3:PutObject",
     "s3:PutObjectACL",
- ]
- tags = {
-   Application = "my_app"
-   Environment = "prod"
- }
+  ]
+  tags = {
+    Application = "my_app"
+    Environment = "prod"
+  }
 }
 ```
 
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | ~> 0.12.0 |
+| aws | ~> 2.70 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws | ~> 2.70 |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| allowed\_actions | A list of allowed actions for objects in the backend bucket. | list(string) | `[ "s3:GetObject", "s3:GetObjectACL", "s3:GetObjectVersion", "s3:PutObject", "s3:PutObjectACL", "s3:DeleteObject", "s3:DeleteObjectVersion" ]` | no |
-| home\_directory\_bucket | The S3 Bucket to use as the home directory | object | n/a | yes |
-| home\_directory\_key\_prefix | The home directory key prefix | string | `""` | no |
-| role\_name | The name of the IAM role for the SFTP user | string | n/a | yes |
-| sftp\_server\_id | Server ID of the AWS Transfer Server (aka SFTP Server) | string | n/a | yes |
-| ssh\_public\_keys | Public SSH key for the user.  If list is empty, then no SSH Keys are setup to authenticate as the user. | list(string) | `[]` | no |
-| tags | A mapping of tags to assign to all resources | map(string) | `{}` | no |
-| user\_name | The name of the user | string | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| allowed\_actions | A list of allowed actions for objects in the backend bucket. | `list(string)` | <pre>[<br>  "s3:GetObject",<br>  "s3:GetObjectACL",<br>  "s3:GetObjectVersion",<br>  "s3:PutObject",<br>  "s3:PutObjectACL",<br>  "s3:DeleteObject",<br>  "s3:DeleteObjectVersion"<br>]</pre> | no |
+| home\_directory\_bucket | The S3 Bucket to use as the home directory | <pre>object({<br>    arn = string<br>    id  = string<br>  })</pre> | n/a | yes |
+| home\_directory\_key\_prefix | The home directory key prefix | `string` | `""` | no |
+| role\_name | The name of the IAM role for the SFTP user | `string` | n/a | yes |
+| sftp\_server\_id | Server ID of the AWS Transfer Server (aka SFTP Server) | `string` | n/a | yes |
+| ssh\_public\_keys | Public SSH key for the user.  If list is empty, then no SSH Keys are setup to authenticate as the user. | `list(string)` | `[]` | no |
+| tags | A mapping of tags to assign to all resources | `map(string)` | `{}` | no |
+| user\_name | The name of the user | `string` | n/a | yes |
+
+## Outputs
+
+No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

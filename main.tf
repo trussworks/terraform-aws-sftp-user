@@ -1,38 +1,3 @@
-/**
- * Creates a user for an AWS Transfer for SFTP endpoint.
- *
- * Creates the following resources:
- *
- * * AWS Transfer user
- * * IAM policy for the user to access S3.
- * * SSH Keys attached to the Transfer user.
- *
- * ## Usage
- * ```hcl
- * module "sftp_user_alice" {
- *   source                = "trussworks/sftp-user/aws"
- *   version               = "~> 1.0.0"
- *
- *   sftp_server_id            = aws_transfer_server.my_app_sftp.id
- *   ssh_public_keys           = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 example@example.com"]
- *   user_name                 = "alice"
- *   role_name                 = "alice-sftp-role"
- *   home_directory_bucket     = "myapp_sftp_bucket"
- *   home_directory_key_prefix = "alice/"
- *   allowed_actions = [
- *     "s3:GetObject",
- *     "s3:GetObjectACL",
- *     "s3:PutObject",
- *     "s3:PutObjectACL",
- *   ]
- *   tags = {
- *     Application = "my_app"
- *     Environment = "prod"
- *   }
- * }
- * ```
- */
-
 #
 # SFTP
 #
