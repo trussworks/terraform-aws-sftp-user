@@ -1,8 +1,14 @@
+locals {
+  create_iam_role = var.role_arn == ""
+}
+
 #
 # SFTP
 #
 
 data "aws_iam_policy_document" "assume_role_policy_doc" {
+  count = local.create_iam_role ? 1 : 0
+
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -14,11 +20,15 @@ data "aws_iam_policy_document" "assume_role_policy_doc" {
 }
 
 resource "aws_iam_role" "main" {
+  count = local.create_iam_role ? 1 : 0
+
   name               = var.role_name
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc[0].json
 }
 
 data "aws_iam_policy_document" "role_policy_doc" {
+  count = local.create_iam_role ? 1 : 0
+
   statement {
     effect = "Allow"
     actions = [
@@ -39,15 +49,17 @@ data "aws_iam_policy_document" "role_policy_doc" {
 }
 
 resource "aws_iam_role_policy" "main" {
-  name   = format("%s-policy", aws_iam_role.main.name)
-  role   = aws_iam_role.main.name
-  policy = data.aws_iam_policy_document.role_policy_doc.json
+  count = local.create_iam_role ? 1 : 0
+
+  name   = format("%s-policy", aws_iam_role.main[0].name)
+  role   = aws_iam_role.main[0].name
+  policy = data.aws_iam_policy_document.role_policy_doc[0].json
 }
 
 resource "aws_transfer_user" "main" {
   server_id      = var.sftp_server_id
   user_name      = var.user_name
-  role           = aws_iam_role.main.arn
+  role           = local.create_iam_role ? aws_iam_role.main[0].arn : role_arn
   home_directory = format("/%s/%s", var.home_directory_bucket.id, var.home_directory_key_prefix)
 
   tags = merge(
@@ -59,7 +71,8 @@ resource "aws_transfer_user" "main" {
 }
 
 resource "aws_transfer_ssh_key" "main" {
-  count     = length(var.ssh_public_keys)
+  count = length(var.ssh_public_keys)
+
   server_id = var.sftp_server_id
   user_name = aws_transfer_user.main.user_name
   body      = var.ssh_public_keys[count.index]

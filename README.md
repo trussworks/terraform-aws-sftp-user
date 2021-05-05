@@ -53,7 +53,8 @@ module "sftp_user_alice" {
 | allowed\_actions | A list of allowed actions for objects in the backend bucket. | `list(string)` | <pre>[<br>  "s3:GetObject",<br>  "s3:GetObjectACL",<br>  "s3:GetObjectVersion",<br>  "s3:PutObject",<br>  "s3:PutObjectACL",<br>  "s3:DeleteObject",<br>  "s3:DeleteObjectVersion"<br>]</pre> | no |
 | home\_directory\_bucket | The S3 Bucket to use as the home directory | <pre>object({<br>    arn = string<br>    id  = string<br>  })</pre> | n/a | yes |
 | home\_directory\_key\_prefix | The home directory key prefix | `string` | `""` | no |
-| role\_name | The name of the IAM role for the SFTP user | `string` | n/a | yes |
+| role\_arn | The name of the IAM role for the SFTP user. Either `role_name` or `role_arn` must be provided, not both. | `string` | `""` | no |
+| role\_name | The name of the IAM role for the SFTP user. Either `role_name` or `role_arn` must be provided, not both. | `string` | `""` | no |
 | sftp\_server\_id | Server ID of the AWS Transfer Server (aka SFTP Server) | `string` | n/a | yes |
 | ssh\_public\_keys | Public SSH key for the user.  If list is empty, then no SSH Keys are setup to authenticate as the user. | `list(string)` | `[]` | no |
 | tags | A mapping of tags to assign to all resources | `map(string)` | `{}` | no |
