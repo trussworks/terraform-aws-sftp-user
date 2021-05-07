@@ -59,7 +59,7 @@ resource "aws_iam_role_policy" "main" {
 resource "aws_transfer_user" "main" {
   server_id      = var.sftp_server_id
   user_name      = var.user_name
-  role           = local.create_iam_role ? aws_iam_role.main[0].arn : role_arn
+  role           = local.create_iam_role ? aws_iam_role.main[0].arn : var.role_arn
   home_directory = format("/%s/%s", var.home_directory_bucket.id, var.home_directory_key_prefix)
 
   tags = merge(
