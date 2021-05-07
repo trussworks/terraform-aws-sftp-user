@@ -7,8 +7,6 @@ locals {
 #
 
 data "aws_iam_policy_document" "assume_role_policy_doc" {
-  count = local.create_iam_role ? 1 : 0
-
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -23,12 +21,10 @@ resource "aws_iam_role" "main" {
   count = local.create_iam_role ? 1 : 0
 
   name               = var.role_name
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc[0].json
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc.json
 }
 
 data "aws_iam_policy_document" "role_policy_doc" {
-  count = local.create_iam_role ? 1 : 0
-
   statement {
     effect = "Allow"
     actions = [
@@ -53,7 +49,7 @@ resource "aws_iam_role_policy" "main" {
 
   name   = format("%s-policy", aws_iam_role.main[0].name)
   role   = aws_iam_role.main[0].name
-  policy = data.aws_iam_policy_document.role_policy_doc[0].json
+  policy = data.aws_iam_policy_document.role_policy_doc.json
 }
 
 resource "aws_transfer_user" "main" {
