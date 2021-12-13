@@ -76,8 +76,8 @@ resource "aws_transfer_user" "main" {
 }
 
 resource "aws_transfer_ssh_key" "main" {
-  count     = length(var.ssh_public_keys)
-  
+  count = length(var.ssh_public_keys)
+
   server_id = var.sftp_server_id
   user_name = aws_transfer_user.main.user_name
   body      = var.ssh_public_keys[count.index]

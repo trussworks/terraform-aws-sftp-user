@@ -4,12 +4,12 @@ variable "user_name" {
 }
 
 variable "role_name" {
-  description = "The name of the IAM role for the SFTP user"
+  description = "The name of the IAM role for the SFTP user. Either `role_name` or `role_arn` must be provided, not both."
   type        = string
 }
 
 variable "role_arn" {
-  description = "The name of the IAM role for the SFTP user. Either `role_name` or `role_arn` must be provided, not both."
+  description = "The ARN of a custom IAM role for the SFTP user."
   type        = string
   default     = ""
 }
