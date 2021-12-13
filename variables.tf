@@ -8,6 +8,12 @@ variable "role_name" {
   type        = string
 }
 
+variable "role_arn" {
+  description = "The name of the IAM role for the SFTP user. Either `role_name` or `role_arn` must be provided, not both."
+  type        = string
+  default     = ""
+}
+
 variable "additional_role_statements" {
   type        = map(object({
     sid       = string

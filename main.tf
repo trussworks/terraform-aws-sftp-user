@@ -14,6 +14,8 @@ data "aws_iam_policy_document" "assume_role_policy_doc" {
 }
 
 resource "aws_iam_role" "main" {
+  count = var.role_arn == "" ? 1 : 0
+
   name               = var.role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc.json
 }
@@ -52,6 +54,8 @@ data "aws_iam_policy_document" "role_policy_doc" {
 }
 
 resource "aws_iam_role_policy" "main" {
+  count = var.role_arn == "" ? 1 : 0
+
   name   = format("%s-policy", aws_iam_role.main.name)
   role   = aws_iam_role.main.name
   policy = data.aws_iam_policy_document.role_policy_doc.json
@@ -60,7 +64,7 @@ resource "aws_iam_role_policy" "main" {
 resource "aws_transfer_user" "main" {
   server_id      = var.sftp_server_id
   user_name      = var.user_name
-  role           = aws_iam_role.main.arn
+  role           = var.role_arn == "" ? aws_iam_role.main[0].arn : var.role_arn
   home_directory = format("/%s/%s", var.home_directory_bucket.id, var.home_directory_key_prefix)
 
   tags = merge(
