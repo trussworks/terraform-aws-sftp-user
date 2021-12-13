@@ -56,8 +56,8 @@ data "aws_iam_policy_document" "role_policy_doc" {
 resource "aws_iam_role_policy" "main" {
   count = var.role_arn == "" ? 1 : 0
 
-  name   = format("%s-policy", aws_iam_role.main.name)
-  role   = aws_iam_role.main.name
+  name   = format("%s-policy", aws_iam_role.main[0].name)
+  role   = aws_iam_role.main[0].name
   policy = data.aws_iam_policy_document.role_policy_doc.json
 }
 
@@ -77,6 +77,7 @@ resource "aws_transfer_user" "main" {
 
 resource "aws_transfer_ssh_key" "main" {
   count     = length(var.ssh_public_keys)
+  
   server_id = var.sftp_server_id
   user_name = aws_transfer_user.main.user_name
   body      = var.ssh_public_keys[count.index]
