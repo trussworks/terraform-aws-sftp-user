@@ -37,7 +37,7 @@ module "sftp_user_alice" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.70 |
 
 ## Providers
@@ -78,5 +78,4 @@ No modules.
 ## Outputs
 
 No outputs.
-
 <!-- END_TF_DOCS -->
