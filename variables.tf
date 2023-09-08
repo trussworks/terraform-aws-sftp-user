@@ -23,16 +23,6 @@ variable "home_directory_bucket" {
   })
 }
 
-variable "mapping_entry" {
-  description = "home_directory_mapping entry point"
-  type = string
-}
-
-variable "mapping_target" {
-  description = "home_directory_mapping target"
-  type = string
-}
-
 variable "home_directory_key_prefix" {
   description = "The home directory key prefix"
   type        = string
