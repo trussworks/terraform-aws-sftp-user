@@ -1,3 +1,14 @@
+terraform {
+  # Will be filled in by terragrunt
+  backend "s3" {}
+
+  required_providers {
+    aws = {
+      version = "= 5.15.0"
+    }
+  }
+}
+
 #
 # SFTP
 #
@@ -49,11 +60,46 @@ resource "aws_iam_role_policy" "main" {
 }
 
 resource "aws_transfer_user" "main" {
-  server_id      = var.sftp_server_id
-  user_name      = var.user_name
-  role           = var.role_arn == "" ? aws_iam_role.main[0].arn : var.role_arn
-  home_directory = format("/%s/%s", var.home_directory_bucket.id, var.home_directory_key_prefix)
-
+  server_id           = var.sftp_server_id
+  user_name           = var.user_name
+  role                = var.role_arn == "" ? aws_iam_role.main[0].arn : var.role_arn
+  home_directory      = format("/%s/%s", var.home_directory_bucket.id, var.home_directory_key_prefix)
+  policy = <<POLICY
+{
+"Version": "2012-10-17",
+"Statement": [
+  {
+    "Sid": "AllowListingOfUserFolder",
+    "Action": [
+      "s3:ListBucket"
+    ],
+    "Effect": "Allow",
+    "Resource": [
+      "arn:aws:s3:::$${transfer:HomeBucket}"
+    ],
+    "Condition": {
+      "StringLike": {
+        "s3:prefix": [
+          "$${transfer:HomeFolder}/*",
+          "$${transfer:HomeFolder}"
+        ]
+      }
+    }
+  },
+  {
+    "Sid": "HomeDirObjectAccess",
+    "Effect": "Allow",
+    "Action": [
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:DeleteObject",
+      "s3:GetObjectVersion"
+    ],
+    "Resource": "arn:aws:s3:::$${transfer:HomeDirectory}*"
+  }
+]
+}
+POLICY
   tags = merge(
     var.tags,
     {

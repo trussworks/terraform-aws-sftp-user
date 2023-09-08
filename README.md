@@ -37,29 +37,24 @@ module "sftp_user_alice" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.70 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | = 5.15.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.70 |
-
-## Modules
-
-No modules.
+| <a name="provider_aws"></a> [aws](#provider\_aws) | = 5.15.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_iam_role.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_transfer_ssh_key.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/transfer_ssh_key) | resource |
-| [aws_transfer_user.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/transfer_user) | resource |
-| [aws_iam_policy_document.assume_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_role.main](https://registry.terraform.io/providers/hashicorp/aws/5.15.0/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.main](https://registry.terraform.io/providers/hashicorp/aws/5.15.0/docs/resources/iam_role_policy) | resource |
+| [aws_transfer_ssh_key.main](https://registry.terraform.io/providers/hashicorp/aws/5.15.0/docs/resources/transfer_ssh_key) | resource |
+| [aws_transfer_user.main](https://registry.terraform.io/providers/hashicorp/aws/5.15.0/docs/resources/transfer_user) | resource |
+| [aws_iam_policy_document.assume_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/5.15.0/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/5.15.0/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -68,6 +63,9 @@ No modules.
 | <a name="input_allowed_actions"></a> [allowed\_actions](#input\_allowed\_actions) | A list of allowed actions for objects in the backend bucket. | `list(string)` | <pre>[<br>  "s3:GetObject",<br>  "s3:GetObjectACL",<br>  "s3:GetObjectVersion",<br>  "s3:PutObject",<br>  "s3:PutObjectACL",<br>  "s3:DeleteObject",<br>  "s3:DeleteObjectVersion"<br>]</pre> | no |
 | <a name="input_home_directory_bucket"></a> [home\_directory\_bucket](#input\_home\_directory\_bucket) | The S3 Bucket to use as the home directory | <pre>object({<br>    arn = string<br>    id  = string<br>  })</pre> | n/a | yes |
 | <a name="input_home_directory_key_prefix"></a> [home\_directory\_key\_prefix](#input\_home\_directory\_key\_prefix) | The home directory key prefix | `string` | `""` | no |
+| <a name="input_home_directory_type"></a> [home\_directory\_type](#input\_home\_directory\_type) | The type of landing directory (folder) you mapped for your users' home directory. Valid values are PATH and LOGICAL | `string` | `"PATH"` | no |
+| <a name="input_mapping_entry"></a> [mapping\_entry](#input\_mapping\_entry) | home\_directory\_mapping entry point | `string` | n/a | yes |
+| <a name="input_mapping_target"></a> [mapping\_target](#input\_mapping\_target) | home\_directory\_mapping target | `string` | n/a | yes |
 | <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | The name of the IAM role for the SFTP user. Either `role_name` or `role_arn` must be provided, not both. | `string` | `""` | no |
 | <a name="input_role_name"></a> [role\_name](#input\_role\_name) | The name of the IAM role for the SFTP user. Either `role_name` or `role_arn` must be provided, not both. | `string` | `""` | no |
 | <a name="input_sftp_server_id"></a> [sftp\_server\_id](#input\_sftp\_server\_id) | Server ID of the AWS Transfer Server (aka SFTP Server) | `string` | n/a | yes |
